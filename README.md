@@ -56,8 +56,8 @@ The following callbacks are available:
     * `render(gl)` is called every `renderInterval` milliseconds, and is the place to do your rendering. 
     * `update()` is called every `updateInterval` milliseconds, and is the place to do your state updates.
     * `onClick(x, y)` is called when the mouse is clicked.
-    * `onKeyDown()` is called when a key is pressed.
-    * `onKeyUp()` is called when a key is released.
+    * `onKeyDown(key, keyCode)` is called when a key is pressed.
+    * `onKeyUp(key, keyCode)` is called when a key is released.
     * `onMouseDown(x, y)` is called when the mouse is pressed.
     * `onMouseMove(x, y)` is called when the mouse is moved.
     * `onMouseUp(x, y)` is called when the mouse is released.
