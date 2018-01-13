@@ -41,25 +41,24 @@ you see fit for those purposes.
 ### Options
 The following options are available: 
 
-    * `canvas` takes a `canvas` DOM element, which is used for rendering.
-    * `renderInterval` takes a `number` that determines how many milliseconds should go
-    between two invocations of the `render` callback. The default value is 60 frames
-    per second.
-    * `updateInterval` takes a `number` that determines how many milliseconds should go
-    between two invocations of the `update` callback. The default value is 60 updates
-    per second.
+  * `canvas` takes a `canvas` DOM element, which is used for rendering.
+  * `renderInterval` takes a `number` that determines how many milliseconds should pass between two invocations of the `render` callback. The default value is 60 frames
+  per second.
+  * `updateInterval` takes a `number` that determines how many milliseconds should pass 
+  between two invocations of the `update` callback. The default value is 60 updates
+  per second.
 
 ### Callbacks
 The following callbacks are available:
 
-    * `create(gl)` is called once before the loop starts. Initialize your state and load your assets here.
-    * `render(gl)` is called every `renderInterval` milliseconds, and is the place to do your rendering. 
-    * `update()` is called every `updateInterval` milliseconds, and is the place to do your state updates.
-    * `onClick(x, y)` is called when the mouse is clicked.
-    * `onKeyDown(key, keyCode)` is called when a key is pressed.
-    * `onKeyUp(key, keyCode)` is called when a key is released.
-    * `onMouseDown(x, y)` is called when the mouse is pressed.
-    * `onMouseMove(x, y)` is called when the mouse is moved.
-    * `onMouseUp(x, y)` is called when the mouse is released.
-    * `onResize(gl)` is called when the window is resized.
+  * `create(gl)` is called once before the loop starts. Initialize your state and load your assets here.
+  * `render(gl)` is called every `renderInterval` milliseconds, and is the place to do your rendering. 
+  * `update()` is called every `updateInterval` milliseconds, and is the place to do your state updates.
+  * `onClick(x, y)` is called when the mouse is clicked.
+  * `onKeyDown(key, keyCode)` is called when a key is pressed.
+  * `onKeyUp(key, keyCode)` is called when a key is released.
+  * `onMouseDown(x, y)` is called when the mouse is pressed.
+  * `onMouseMove(x, y)` is called when the mouse is moved.
+  * `onMouseUp(x, y)` is called when the mouse is released.
+  * `onResize(gl)` is called when the window is resized.
     
