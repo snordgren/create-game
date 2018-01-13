@@ -1,6 +1,6 @@
 {
   "name": "create-game",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The fastest way to get started making WebGL games.",
   "main": "index.js",
   "scripts": {
