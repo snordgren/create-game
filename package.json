@@ -1,8 +1,8 @@
 {
   "name": "create-game",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "The fastest way to get started making WebGL games.",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "prepublishOnly": "npm install && ./node_modules/.bin/webpack"
   },
