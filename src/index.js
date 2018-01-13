@@ -1,4 +1,4 @@
-function resizeCanvas(canvas) {
+function resizeCanvas(canvas, gl) {
   const pixelRatio = window.devicePixelRatio;
   canvas.width = pixelRatio * window.innerWidth;
   canvas.height = pixelRatio * window.innerHeight;
@@ -7,7 +7,7 @@ function resizeCanvas(canvas) {
   gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 }
 
-function createGame(app, options) {
+export default function createGame(app, options) {
   window.scrollTo(0, 1);
   const { canvas } = options;
   if (canvas.getContext) {
@@ -20,8 +20,9 @@ function createGame(app, options) {
     window.onresize = () => {
       resizeCanvas(canvas, gl);
       if (app.onResize) {
-        app.onResize(canvas, gl);
+        app.onResize(gl);
       }
+      app.render(gl);
     };
 
     document.addEventListener('keydown', (event) => {
@@ -37,21 +38,31 @@ function createGame(app, options) {
     }, false);
 
     canvas.addEventListener('click', (event) => {
-      const x = event.clientX;
-      const y = event.clientY;
       if (app.onClick) {
-        app.onClick(canvas, gl, x, y);
+        app.onClick(event.clientX, event.clientY);
       }
     });
 
-    document.onmousemove = (event) => {
+    canvas.addEventListener('mouseup', (event) => {
+      if (app.onMouseUp) {
+        app.onMouseUp(event.clientX, event.clientY);
+      }
+    });
+
+    canvas.addEventListener('mousedown', (event) => {
+      if (app.onMouseDown) {
+        app.onMouseDown(event.clientX, event.clientY);
+      }
+    });
+
+    document.addEventListener('mousemove', () => {
       if (app.onMouseMove) {
         app.onMouseMove(event.clientX, event.clientY);
       }
-    };
+    });
 
     if (app.create) {
-      app.create(canvas, gl);
+      app.create(gl);
     }
 
     const renderFreq = (options.renderInterval) ? options.renderInterval : (1000 / 60);
@@ -74,14 +85,14 @@ function createGame(app, options) {
       }
 
       if(renderAcc >= renderFreq && app.render) {
-        app.render(canvas, gl);
+        app.render(gl);
         renderAcc -= renderFreq;
       }
     }
 
     requestAnimationFrame((timestamp) => {
       if(app.render) {
-        app.render(canvas, gl);
+        app.render(gl);
       }
 
       lastFrameTime = timestamp;
@@ -93,5 +104,3 @@ function createGame(app, options) {
     return 'Browser does not support WebGL.';
   }
 }
-
-export { createGame };
