@@ -1,3 +1,5 @@
 dist/
 node_modules/
 *.map
+test/bundle.js
+.DS_Store

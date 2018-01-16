@@ -1,11 +1,4 @@
-function resizeCanvas(canvas, gl) {
-  const pixelRatio = window.devicePixelRatio;
-  canvas.width = pixelRatio * window.innerWidth;
-  canvas.height = pixelRatio * window.innerHeight;
-  canvas.style.width = window.width;
-  canvas.style.height = window.height;
-  gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
-}
+import { resizeCanvasToDisplaySize } from 'twgl.js';
 
 export default function createGame(app, options) {
   window.scrollTo(0, 1);
@@ -15,14 +8,25 @@ export default function createGame(app, options) {
     if (!gl) {
       return 'No WebGL.';
     }
-    resizeCanvas(canvas, gl);
 
-    window.onresize = () => {
-      resizeCanvas(canvas, gl);
+    const renderApp = () => {
+      resizeCanvasToDisplaySize(canvas, window.devicePixelRatio);
+      if (app.render) {
+        app.render(gl);
+      }
+    }
+
+    const resizeApp = () => {
+      resizeCanvasToDisplaySize(canvas, window.devicePixelRatio);
+      gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
       if (app.onResize) {
         app.onResize(gl);
       }
-      app.render(gl);
+    }
+
+    window.onresize = () => {
+      resizeApp();
+      renderApp();
     };
 
     document.addEventListener('keydown', (event) => {
@@ -65,6 +69,8 @@ export default function createGame(app, options) {
       app.create(gl);
     }
 
+    resizeApp();
+
     const renderFreq = (options.renderInterval) ? options.renderInterval : (1000 / 60);
     const updateFreq = (options.updateInterval) ? options.updateInterval : (1000 / 60);
     let lastFrameTime = 0;
@@ -77,24 +83,21 @@ export default function createGame(app, options) {
       updateAcc += timeDiff;
       lastFrameTime = timestamp;
 
-      while(updateAcc > updateFreq) {
-        if(app.update) {
+      while (updateAcc > updateFreq) {
+        if (app.update) {
           app.update();
         }
         updateAcc -= updateFreq;
       }
 
-      if(renderAcc >= renderFreq && app.render) {
-        app.render(gl);
+      if (renderAcc >= renderFreq && app.render) {
+        renderApp();
         renderAcc -= renderFreq;
       }
     }
 
     requestAnimationFrame((timestamp) => {
-      if(app.render) {
-        app.render(gl);
-      }
-
+      renderApp();
       lastFrameTime = timestamp;
       requestAnimationFrame(runGameLoop);
     });
